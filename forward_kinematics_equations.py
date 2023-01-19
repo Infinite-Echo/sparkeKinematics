@@ -33,34 +33,52 @@ def print_solved_angles(x_ee, y_ee, z_ee):
     Tm = tf.create_base_transformation(0, 0, 0, 0, 0, 0)
     print(legtf.solve_for_angles(Tm, x_ee, y_ee, z_ee))
 
-def test_eq():
-    x_ee = 0.1080710678
-    y_ee = 0.11
-    z_ee = -0.1838477631
+def test_eq(x_ee, y_ee, z_ee):
     len1 = 0.055
     c = m.sqrt(((z_ee-0)**2) + ((y_ee-0.055)**2))
     b = m.sqrt((c**2)-(len1**2))
     thetaA = m.atan2((z_ee-0), (y_ee-0.055))
     thetaB = m.atan2(-b, len1)
     theta1 = thetaB - thetaA
-    # theta1 = m.atan2(z_ee, y_ee) + m.atan2(m.sqrt((y_ee**2)+(z_ee**2)+(0.055**2)), -0.055)
-    print(theta1)
+    return theta1
+
+def test_eq2(x_ee, y_ee, z_ee, theta1):
+    len2 = 0.125
+    len3 = 0.135
+    x13 = (x_ee - 0.101)
+    z13 = (z_ee - 0)
+    a = (x13**2) + (z13**2) - (len2**2) - (len3**2)
+    b = -2*len2*len3
+    theta3 = (m.acos(a/b)/2)
+    theta3 = round(theta3, 4)
+    return theta3
+
+def test_eq3(x_ee, y_ee, z_ee, theta3):
+    len2 = 0.125
+    len3 = 0.135
+    a = len3 * m.sin(theta3)
+    b = len3 * m.cos(theta3)
+    x2 = abs(x_ee - a)
+    z2 = abs(z_ee + b)
+    x12 = 0.101 - x2
+    z12 = z2
+    print(x12)
+    print(z12)
+    theta2 = m.atan2(z12, x12)
+    theta2 = round(theta2, 4)
+    return theta2
 
 def main():
-    # cosb, cos1 = sym.symbols('cosb, cos1')
-    # A = sym.Matrix([[1, cosb], [cos1, 1]])
-    # print(A**2)
-    # print_xyz_equations()
-    # x_ee = (0.005*m.sqrt(2)) + 0.101
-    # y_ee = (0.0225742726730441*m.sqrt(2)) + 0.109164425701277
-    # z_ee = (-0.128025006203019*m.sqrt(2)) - 0.00955065382321095
-    # print(z_ee)
-    # print_solved_angles(x_ee, y_ee, z_ee)
+    x_ee = 0.1080710678
+    y_ee = 0.11
+    z_ee = -0.1838477631
     # print_home()
-    test_eq()
-
-# -1.2801098374086937 = 0 degrees
-# -1.1465608223128407 = 10 degrees
+    theta1 = test_eq(x_ee, y_ee, z_ee)
+    theta3 = test_eq2(x_ee, y_ee, z_ee, theta1)
+    theta2 = test_eq3(x_ee, y_ee, z_ee, theta3)
+    print(f'theta1: {theta1}')
+    print(f'theta2: {theta2}')
+    print(f'theta3: {theta3}')
 
 if __name__ == '__main__':
     main()
