@@ -62,8 +62,6 @@ def test_eq3(x_ee, y_ee, z_ee, theta3):
     z2 = abs(z_ee + b)
     x12 = 0.101 - x2
     z12 = z2
-    print(x12)
-    print(z12)
     theta2 = m.atan2(z12, x12)
     theta2 = round(theta2, 4)
     return theta2
@@ -72,7 +70,7 @@ def main():
     x_ee = 0.1080710678
     y_ee = 0.11
     z_ee = -0.1838477631
-    # print_home()
+    print_home()
     theta1 = test_eq(x_ee, y_ee, z_ee)
     theta3 = test_eq2(x_ee, y_ee, z_ee, theta1)
     theta2 = test_eq3(x_ee, y_ee, z_ee, theta3)
