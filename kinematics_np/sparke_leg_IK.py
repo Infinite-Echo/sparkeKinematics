@@ -62,17 +62,17 @@ class sparkeLeg():
         t_b1 = np.matmul(self.t_b0, self.t_01)
         return t_b1
 
-def main():
-    Tm = basetf.create_base_transformation(0, 0, 0, 0, 0, 0)
-    x_ee = 0.1080710678
-    y_ee = 0.11
-    z_ee = -0.1838477631
-    leg_test = sparkeLeg(1)
-    leg_test.solve_angles(Tm, x_ee, y_ee, z_ee)
-    print(f'theta1: {leg_test.theta1}')
-    print(f'theta2: {leg_test.theta2}')
-    print(f'theta3: {leg_test.theta3}')
+# def main():
+#     Tm = basetf.create_base_transformation(0, 0, 0, 0, 0, 0)
+#     x_ee = 0.1080710678
+#     y_ee = 0.11
+#     z_ee = -0.1838477631
+#     leg_test = sparkeLeg(1)
+#     leg_test.solve_angles(Tm, x_ee, y_ee, z_ee)
+#     print(f'theta1: {leg_test.theta1}')
+#     print(f'theta2: {leg_test.theta2}')
+#     print(f'theta3: {leg_test.theta3}')
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
