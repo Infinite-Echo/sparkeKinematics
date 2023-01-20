@@ -25,11 +25,17 @@ def plot_points(arr1, arr2):
     plt.show()
 
 def main():
-    
     Tm = basetf.create_base_transformation(0, 0, 0, 0, 0, 0)
-    x_ee = 0.1080710678
-    y_ee = 0.11
-    z_ee = -0.1838477631
+    tb0 = legtf.create_Tb0(Tm)
+    t01 = legtf.create_T01(-np.pi/12)
+    t12 = legtf.create_T12(0)
+    t23 = legtf.create_T23(0)
+    tb1 = np.matmul(tb0, t01)
+    tb2 = np.matmul(tb1, t12)
+    tb3 = np.matmul(tb2, t23)
+    x_ee = tb3[0,3]
+    y_ee = tb3[1,3]
+    z_ee = tb3[2,3]
     leg = spLegIK(1)
     leg.solve_angles(Tm, x_ee, y_ee, z_ee)
     print(f'theta1: {leg.theta1}')
@@ -37,7 +43,7 @@ def main():
     print(f'theta3: {leg.theta3}')
 
     f_Tb0 = legtf.create_Tb0(Tm)
-    f_t01 = legtf.create_T01(0)
+    f_t01 = legtf.create_T01(np.pi/12)
     f_t12 = legtf.create_T12(0)
     f_t23 = legtf.create_T23(0)
     f_Tb1 = np.matmul(f_Tb0, f_t01)
