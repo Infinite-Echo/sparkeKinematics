@@ -4,10 +4,11 @@ import base_transformations as basetf
 
 class sparkeLeg():
     def __init__(self, leg_id):
-        self.init_variables()
+        self.init_variables(leg_id)
         self.initialize_leg_transforms()
 
-    def init_variables(self):
+    def init_variables(self, leg_id):
+        self.x_dir, self.y_dir = legtf.get_dirs(leg_id)
         self.len1 = 0.055
         self.len2 = 0.125
         self.len3 = 0.135
@@ -18,7 +19,7 @@ class sparkeLeg():
         self.t_23 = legtf.create_T23(0)
 
     def update_Tb0(self, Tm):
-        self.t_b0 = legtf.create_Tb0(Tm)
+        self.t_b0 = legtf.create_Tb0(Tm, self.x_dir, self.y_dir)
 
     def solve_angles(self, Tm, x_ee, y_ee, z_ee):
         self.update_Tb0(Tm)
