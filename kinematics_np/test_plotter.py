@@ -66,7 +66,7 @@ def main():
     print(f'theta3: {leg2.theta3}')
 
     Tm = basetf.create_base_transformation(0, 0, 0, 0, 0, 0)
-    tb0 = legtf.create_Tb0(Tm, 1, -1)
+    tb0 = legtf.create_Tb0(Tm, -1, 1)
     t01 = legtf.create_T01(0)
     t12 = legtf.create_T12(0)
     t23 = legtf.create_T23(0)
