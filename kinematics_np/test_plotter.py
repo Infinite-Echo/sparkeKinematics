@@ -149,8 +149,8 @@ def main():
 
     i_Tb0 = legtf.create_Tb0(Tm, 1, 1)
     i_t01 = legtf.create_T01(leg1.theta1)
-    i_t12 = legtf.create_T12(leg1.theta2)
-    i_t23 = legtf.create_T23(leg1.theta3)
+    i_t12 = legtf.create_T12(leg1.theta2 + np.pi/4)
+    i_t23 = legtf.create_T23(leg1.theta3 - np.pi/4)
     i_Tb1 = np.matmul(i_Tb0, i_t01)
     i_Tb2 = np.matmul(i_Tb1, i_t12)
     i_Tb3 = np.matmul(i_Tb2, i_t23)
@@ -161,8 +161,8 @@ def main():
 
     i2_Tb0 = legtf.create_Tb0(Tm, 1, -1)
     i2_t01 = legtf.create_T01(leg2.theta1)
-    i2_t12 = legtf.create_T12(leg2.theta2)
-    i2_t23 = legtf.create_T23(leg2.theta3)
+    i2_t12 = legtf.create_T12(leg2.theta2 + np.pi/4)
+    i2_t23 = legtf.create_T23(leg2.theta3 - np.pi/4)
     i2_Tb1 = np.matmul(i2_Tb0, i2_t01)
     i2_Tb2 = np.matmul(i2_Tb1, i2_t12)
     i2_Tb3 = np.matmul(i2_Tb2, i2_t23)
@@ -173,8 +173,8 @@ def main():
 
     i3_Tb0 = legtf.create_Tb0(Tm, -1, 1)
     i3_t01 = legtf.create_T01(leg3.theta1)
-    i3_t12 = legtf.create_T12(leg3.theta2)
-    i3_t23 = legtf.create_T23(leg3.theta3)
+    i3_t12 = legtf.create_T12(leg3.theta2 + np.pi/4)
+    i3_t23 = legtf.create_T23(leg3.theta3 - np.pi/4)
     i3_Tb1 = np.matmul(i3_Tb0, i3_t01)
     i3_Tb2 = np.matmul(i3_Tb1, i3_t12)
     i3_Tb3 = np.matmul(i3_Tb2, i3_t23)
@@ -185,8 +185,8 @@ def main():
 
     i4_Tb0 = legtf.create_Tb0(Tm, -1, -1)
     i4_t01 = legtf.create_T01(leg4.theta1)
-    i4_t12 = legtf.create_T12(leg4.theta2)
-    i4_t23 = legtf.create_T23(leg4.theta3)
+    i4_t12 = legtf.create_T12(leg4.theta2 + np.pi/4)
+    i4_t23 = legtf.create_T23(leg4.theta3 - np.pi/4)
     i4_Tb1 = np.matmul(i4_Tb0, i4_t01)
     i4_Tb2 = np.matmul(i4_Tb1, i4_t12)
     i4_Tb3 = np.matmul(i4_Tb2, i4_t23)

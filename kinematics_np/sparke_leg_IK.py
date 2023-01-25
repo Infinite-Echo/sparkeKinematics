@@ -48,14 +48,14 @@ class sparkeLeg():
 
     def solve_theta2(self, x_ee, z_ee):
         t_b1 = self.get_tb1()
-        x1, z1 = t_b1[0,3], t_b1[2,3]
-        a = self.len3 * np.sin(self.theta3) * self.x_dir
+        x1, z1 = t_b1[0,3] * self.x_dir, t_b1[2,3]
+        a = self.len3 * np.sin(self.theta3)
         b = self.len3 * np.cos(self.theta3)
         x2 = abs(x_ee - a)
         z2 = abs(z_ee + b)
         x1_2 = x1 - x2
         z1_2 = z1 - z2
-        theta2 = np.arctan2(z1_2, x1_2)
+        theta2 = np.arctan2(z1_2, x1_2*self.x_dir)
         self.theta2 = round(theta2, 4)
 
     def get_tb1(self):
