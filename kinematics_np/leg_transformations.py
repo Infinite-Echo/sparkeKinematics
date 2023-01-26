@@ -57,9 +57,9 @@ def create_T01(theta1):
 def create_T12(theta2):
     len2 = 0.125
     t12 = np.matrix([
-        [np.cos(theta2), 0, -np.sin(theta2), -len2*np.cos(theta2+(np.pi/4))],
+        [np.cos(theta2), 0, -np.sin(theta2), -len2*np.cos(theta2)],
         [0, 1, 0, 0],
-        [np.sin(theta2), 0, np.cos(theta2), -len2*np.sin(theta2+(np.pi/4))],
+        [np.sin(theta2), 0, np.cos(theta2), -len2*np.sin(theta2)],
         [0, 0, 0, 1],
     ])
     return t12
@@ -67,9 +67,9 @@ def create_T12(theta2):
 def create_T23(theta3):
     len3 = 0.135
     t23 = np.matrix([
-        [np.cos(theta3), 0, -np.sin(theta3), len3*np.cos(theta3+(np.pi/4))],
+        [np.cos(theta3), 0, -np.sin(theta3), len3*np.cos(theta3)],
         [0, 1, 0, 0],
-        [np.sin(theta3), 0, np.cos(theta3), -len3*np.sin(theta3+(np.pi/4))],
+        [np.sin(theta3), 0, np.cos(theta3), -len3*np.sin(theta3)],
         [0, 0, 0, 1],
     ])
     return t23
