@@ -2,7 +2,7 @@ import numpy as np
 import leg_transformations as legtf
 import base_transformations as basetf
 
-class sparkeLeg():
+class SparkeLeg():
     def __init__(self, leg_id):
         self.init_variables(leg_id)
         self.initialize_leg_transforms()

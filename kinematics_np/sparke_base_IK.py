@@ -1,15 +1,15 @@
-from sparke_leg_IK import sparkeLeg
+from sparke_leg_IK import SparkeLeg
 import numpy as np
 
-class sparkeBase():
+class SparkeBase():
     def __init__(self):
         self.create_legs()
 
     def create_legs(self):
-        self.fl_leg = sparkeLeg(1)
-        self.fr_leg = sparkeLeg(2)
-        self.bl_leg = sparkeLeg(3)
-        self.br_leg = sparkeLeg(4)
+        self.fl_leg = SparkeLeg(1)
+        self.fr_leg = SparkeLeg(2)
+        self.bl_leg = SparkeLeg(3)
+        self.br_leg = SparkeLeg(4)
 
     def get_angles_from_trajectory(self, Tm, x_end_effectors, y_end_effectors, z_end_effectors):
         self.fl_leg.solve_angles(Tm, x_end_effectors[0], y_end_effectors[0], z_end_effectors[0])

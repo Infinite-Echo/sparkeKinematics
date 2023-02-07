@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from sparke_leg_IK import sparkeLeg as spLegIK
+from sparke_leg_IK import SparkeLeg as spLegIK
 import base_transformations as basetf
 import leg_transformations as legtf
 
