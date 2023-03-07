@@ -1,4 +1,4 @@
-#include <Eigen/Dense>
+#include "Eigen/Dense"
 #include <iostream>
 #include <cmath>
 #include "base_transformations.hpp"
@@ -9,6 +9,7 @@ Eigen::Matrix<float, 4, 4> create_base_transformation(float x_base, float y_base
     Eigen::Matrix<float, 4, 4> rotxyz = create_rotxyz(roll, pitch, yaw);
     Eigen::Matrix<float, 4, 4> Tbase = create_base_translation(x_base, y_base, z_base);
     Eigen::Matrix<float, 4, 4> Tm = rotxyz*Tbase;
+    return Tm;
 }
 
 Eigen::Matrix<float, 4, 4> create_base_translation(float x_base, float y_base, float z_base)
