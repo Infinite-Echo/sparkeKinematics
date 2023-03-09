@@ -24,8 +24,9 @@ class SparkeLeg
         void solve_theta1(float y_ee, float z_ee);
         void solve_theta2(float x_ee, float z_ee);
         void solve_theta3(float x_ee, float z_ee);
+        void get_dirs(int leg_id);
         Eigen::Matrix<float, 4, 4> get_tb1();
     public:
-        SparkeLeg();
+        SparkeLeg(int leg_id);
         ~SparkeLeg();
 };

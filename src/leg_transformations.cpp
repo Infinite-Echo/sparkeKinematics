@@ -21,30 +21,6 @@ Eigen::Matrix<float, 4, 4> create_base_to_ee_transformation(Eigen::Matrix<float,
     return Tb3;
 }
 
-void get_dirs(int leg_id, int &x_dir, int &y_dir)
-{
-    if (leg_id==1)
-    {
-        x_dir = 1;
-        y_dir = 1;
-    } 
-    else if (leg_id == 2)
-    {
-        x_dir = 1;
-        y_dir = -1;
-    }
-    else if (leg_id == 3)
-    {
-        x_dir = -1;
-        y_dir = 1;
-    }
-    else if (leg_id == 4)
-    {
-        x_dir = -1;
-        y_dir = -1;
-    }
-}
-
 Eigen::Matrix<float, 4, 4> create_Tb0(Eigen::Matrix<float, 4, 4> Tm, int x_dir, int y_dir)
 {
     const float baseLength = float(0.202 * x_dir);
