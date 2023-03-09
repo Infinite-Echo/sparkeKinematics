@@ -1,5 +1,6 @@
 #include "sparke_base_IK.hpp"
 #include "base_transformations.hpp"
+// #include "sparke_leg_IK.hpp"
 #include <iostream>
 #include <Eigen/Dense>
 #include <array>
@@ -35,9 +36,10 @@ Z Pos: -0.18384776310850237
 
 int main()
 {
+    SparkeLeg testLeg = SparkeLeg(1);
     SparkeBase testSparke = SparkeBase();
     array<float, 4> xArray = {
-        0.11,
+        0.10807106781186548,
         0.10807106781186548,
         -0.09392893218813454,
         -0.09392893218813454
@@ -55,10 +57,15 @@ int main()
         -0.18384776310850237
     };
     Eigen::Matrix<float, 4, 4> Tm = create_base_transformation(0,0,0,0,0,0);
-    array<float, 12> angles = testSparke.get_angles_from_trajectory(Tm,xArray,yArray,zArray);
-    for(int i = 0; i<12; i++)
-    {
-        std::cout << angles[i] << std::endl;
-    }
+    testLeg.solve_angles(Tm, 0.10807106781186548, 0.11, -0.18384776310850237);
+    std::cout << testLeg.theta1 << std::endl;
+    std::cout << testLeg.theta2 << std::endl;
+    std::cout << testLeg.theta3 << std::endl;
+
+    // array<float, 12> angles = testSparke.get_angles_from_trajectory(Tm,xArray,yArray,zArray);
+    // for(int i = 0; i<12; i++)
+    // {
+    //     std::cout << angles[i] << std::endl;
+    // }
     return 0;
 }
