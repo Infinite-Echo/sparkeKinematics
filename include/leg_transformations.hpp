@@ -3,7 +3,7 @@
 #include <cmath>
 
 Eigen::Matrix<float, 4, 4> create_base_to_ee_transformation(Eigen::Matrix<float, 4, 4> Tm, 
-                            float theta1, float theta2, float theta3, int leg_id);
+                            float theta1, float theta2, float theta3, int leg_id, int x_dir, int y_dir);
 
 Eigen::Matrix<float, 4, 4> create_Tb0(Eigen::Matrix<float, 4, 4> Tm, int x_dir, int y_dir);
 

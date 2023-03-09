@@ -11,10 +11,10 @@ class SparkeBase
         SparkeLeg fr_leg = SparkeLeg(2);
         SparkeLeg bl_leg = SparkeLeg(3);
         SparkeLeg br_leg = SparkeLeg(4);
-        array<float,12> get_angles_from_trajectory(Eigen::Matrix<float,4,4> Tm,
-            array<float,4> x_end_effectors, array<float,4> y_end_effectors, 
-            array<float,4> z_end_effectors);
     public:
         SparkeBase();
         ~SparkeBase();
+        array<float,12> get_angles_from_trajectory(Eigen::Matrix<float,4,4> Tm,
+            array<float,4> x_end_effectors, array<float,4> y_end_effectors, 
+            array<float,4> z_end_effectors);
 };

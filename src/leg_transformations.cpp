@@ -7,10 +7,8 @@ using std::cos;
 using std::sin;
 
 Eigen::Matrix<float, 4, 4> create_base_to_ee_transformation(Eigen::Matrix<float, 4, 4> Tm, 
-                            float theta1, float theta2, float theta3, int leg_id)
+                            float theta1, float theta2, float theta3, int leg_id, int x_dir, int y_dir)
 {
-    int x_dir, y_dir;
-    get_dirs(leg_id, x_dir, y_dir); //check to make sure x_dir and y_dir get changed
     Eigen::Matrix<float, 4, 4> Tb0 = create_Tb0(Tm, x_dir, y_dir);
     Eigen::Matrix<float, 4, 4> t01 = create_T01(theta1);
     Eigen::Matrix<float, 4, 4> t12 = create_T12(theta2);
