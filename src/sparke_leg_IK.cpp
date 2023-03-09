@@ -29,7 +29,7 @@ void SparkeLeg::solve_angles(Eigen::Matrix<float, 4, 4> Tm, float x_ee,
     update_Tb0(Tm);
     solve_theta1(y_ee, z_ee);
     solve_theta3(x_ee, z_ee);
-    solve_theta2(x_ee, y_ee);
+    solve_theta2(x_ee, z_ee);
 }
 
 void SparkeLeg::solve_theta1(float y_ee, float z_ee)
@@ -50,6 +50,8 @@ void SparkeLeg::solve_theta3(float x_ee, float z_ee)
 {
     float x1, z1, x1_ee, z1_ee, a, b;
     Eigen::Matrix<float,4,4> t_b1 = get_tb1();
+    x_ee = abs(x_ee);
+    z_ee = abs(z_ee);
     x1 = abs(t_b1(0,3));
     z1 = abs(t_b1(2,3));
     x1_ee = x_ee - x1;
@@ -63,6 +65,8 @@ void SparkeLeg::solve_theta2(float x_ee, float z_ee)
 {
     float x1, z1, x1_3, z1_3, alpha, beta, a, b, c;
     Eigen::Matrix<float,4,4> t_b1 = get_tb1();
+    x_ee = abs(x_ee);
+    z_ee = abs(z_ee);
     x1 = abs(t_b1(0,3));
     z1 = abs(t_b1(2,3));
     x1_3 = abs(x_ee - x1) * -1;
