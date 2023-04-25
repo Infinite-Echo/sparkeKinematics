@@ -250,7 +250,7 @@
          </column>
          <column>
           <property name="text">
-           <string/>
+           <string>Value</string>
           </property>
          </column>
          <item>
@@ -261,7 +261,7 @@
            <string/>
           </property>
           <property name="textAlignment">
-           <set>AlignTrailing|AlignVCenter</set>
+           <set>AlignLeading|AlignVCenter</set>
           </property>
           <item>
            <property name="text">
@@ -329,6 +329,141 @@
           <property name="text">
            <string>Front Left</string>
           </property>
+          <item>
+           <property name="text">
+            <string>Shoulder</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <item>
+            <property name="text">
+             <string>Position</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <item>
+             <property name="text">
+              <string>X</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Y</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Z</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Theta</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+           </item>
+          </item>
+          <item>
+           <property name="text">
+            <string>Leg</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>Position</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>X</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Y</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Z</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Theta</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+           </item>
+          </item>
+          <item>
+           <property name="text">
+            <string>Wrist</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>Position</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <item>
+             <property name="text">
+              <string>X</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Y</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Z</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Theta</string>
+             </property>
+            </item>
+           </item>
+          </item>
          </item>
          <item>
           <property name="text">
@@ -456,11 +591,221 @@
           <property name="text">
            <string>Back Left</string>
           </property>
+          <item>
+           <property name="text">
+            <string>Shoulder</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>Position</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>X</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Y</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Z</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Theta</string>
+             </property>
+            </item>
+           </item>
+          </item>
+          <item>
+           <property name="text">
+            <string>Leg</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>Position</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>X</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Y</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Z</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Theta</string>
+             </property>
+            </item>
+           </item>
+          </item>
+          <item>
+           <property name="text">
+            <string>Wrist</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>Position</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>X</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Y</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Z</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Theta</string>
+             </property>
+            </item>
+           </item>
+          </item>
          </item>
          <item>
           <property name="text">
            <string>Back Right</string>
           </property>
+          <item>
+           <property name="text">
+            <string>Shoulder</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>Position</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>X</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Y</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Z</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Theta</string>
+             </property>
+            </item>
+           </item>
+          </item>
+          <item>
+           <property name="text">
+            <string>Leg</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>Position</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>X</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Y</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Z</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Theta</string>
+             </property>
+            </item>
+           </item>
+          </item>
+          <item>
+           <property name="text">
+            <string>Wrist</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>Position</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>X</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Y</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Z</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Theta</string>
+             </property>
+            </item>
+           </item>
+          </item>
          </item>
         </widget>
        </item>
