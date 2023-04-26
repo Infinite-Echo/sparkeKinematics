@@ -1,11 +1,13 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QTreeView, QApplication, QWidget, QVBoxLayout, QSizePolicy, QMainWindow
+from kinematics_np.sparke_base_IK import SparkeBase
+from mainwindow import Ui_MainWindow
 
 class EditableTree(QWidget):
-    def __init__(self, parent: QMainWindow, ui):
+    def __init__(self, parent: QMainWindow):
         super().__init__(parent)
-        self.ui = ui
+        self.ui = parent.ui
         # Initialize the model and set the headers for the tree
         self.model = QStandardItemModel()
         self.model.setHorizontalHeaderLabels(['Robot', ''])
@@ -51,7 +53,7 @@ class EditableTree(QWidget):
         joint_items = []
         for joint in joints:
             joint_item = QStandardItem(joint)
-            joint_item = self.disable_item_editing(joint_item)
+            joint_item.setEditable(False)
             joint_item.appendRow([self.generate_position_item(), self.generate_empty_item()])
             joint_item.appendRow([self.generate_rotation_item(), self.generate_empty_item()])
             joint_items.append(joint_item)
@@ -59,48 +61,45 @@ class EditableTree(QWidget):
             
     def generate_position_item(self):
         pos_parent_item = QStandardItem('Position')
-        pos_parent_item = self.disable_item_editing(pos_parent_item)
+        pos_parent_item.setEditable(False)
         positions = ['X', 'Y', 'Z']
         for position in positions:
             position_item = QStandardItem(position)
-            position_item = self.disable_item_editing(position_item)
+            position_item.setEditable(False)
             pos_parent_item.appendRow([position_item, self.generate_empty_item()])
         return pos_parent_item
     
     def generate_base_rot_item(self):
         rot_parent_item = QStandardItem('Rotation')
-        rot_parent_item = self.disable_item_editing(rot_parent_item)
-        rotations = ['X\'', 'Y\'', 'Z\'']
+        rot_parent_item.setEditable(False)
+        rotations = ['Roll', 'Pitch', 'Yaw']
         for rotation in rotations:
             rotation_item = QStandardItem(rotation)
-            rotation_item = self.disable_item_editing(rotation_item)
-            rot_parent_item.appendRow([rotation_item, self.generate_empty_item()])
+            rotation_item.setEditable(False)
+            rot_parent_item.appendRow([rotation_item, self.generate_empty_item(True)])
         return rot_parent_item
     
     def generate_rotation_item(self):
         rotation_item = QStandardItem('Rotation')
-        rotation_item = self.disable_item_editing(rotation_item)
+        rotation_item.setEditable(False)
         theta_item = QStandardItem('Theta')
-        theta_item = self.disable_item_editing(theta_item)
+        theta_item.setEditable(False)
         rotation_item.appendRow([theta_item, self.generate_empty_item()])
         return rotation_item
     
-    def generate_empty_item(self):
+    def generate_empty_item(self, editable = False):
         item = QStandardItem('')
-        item = self.disable_item_editing(item)
-        return item
-    
-    def disable_item_editing(self, item):
-        item.setFlags(item.flags() & ~Qt.ItemIsEditable)
+        item.setEditable(editable)
         return item
 
     def update_mode(self):
         #toggle editability of joint angles (fk) / pos (ik) 
         if self.ui.actionForward_Kinematics.isChecked()==True and self.ui.actionInverse_Kinematics.isChecked()==False:
             self.mode = 'fk'
+            self.activate_fk_mode()
         elif self.ui.actionForward_Kinematics.isChecked()==False and self.ui.actionInverse_Kinematics.isChecked()==True:
             self.mode = 'ik'
-        print(self.mode)
+            self.activate_ik_mode()
         
     def toggle_fk(self):
         self.ui.actionForward_Kinematics.toggle()
@@ -109,6 +108,12 @@ class EditableTree(QWidget):
     def toggle_ik(self):
         self.ui.actionInverse_Kinematics.toggle()
         self.update_mode()
+
+    def activate_ik_mode(self):
+        pass
+
+    def activate_fk_mode(self):
+        pass
 
 if __name__ == '__main__':
     app = QApplication([])

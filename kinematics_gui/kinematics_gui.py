@@ -8,6 +8,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from matplotlib_widget import Matplotlib3DWidget
 from tree_widget import EditableTree
+from kinematics_controller import kinematicsController
 
 class App(QMainWindow):
     def __init__(self):
@@ -22,12 +23,15 @@ class App(QMainWindow):
 
         # Get the plot widget and layout from the UI
         plot_widget = Matplotlib3DWidget(self)
-        plot_layout = self.ui.plot_layout
-        plot_layout.addWidget(plot_widget)
+        self.plot_layout = self.ui.plot_layout
+        self.plot_layout.addWidget(plot_widget)
 
-        tree_widget = EditableTree(self, self.ui)
-        tree_layout = self.ui.tree_layout
-        tree_layout.addWidget(tree_widget)
+        tree_widget = EditableTree(self)
+        self.tree_layout = self.ui.tree_layout
+        self.tree_layout.addWidget(tree_widget)
+        self.ui.findChild(QWidget, '')
+
+        controller = kinematicsController(self)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
