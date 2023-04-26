@@ -25,7 +25,7 @@ class App(QMainWindow):
         plot_layout = self.ui.plot_layout
         plot_layout.addWidget(plot_widget)
 
-        tree_widget = EditableTree(self)
+        tree_widget = EditableTree(self, self.ui)
         tree_layout = self.ui.tree_layout
         tree_layout.addWidget(tree_widget)
 

@@ -336,5 +336,22 @@
   </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionForward_Kinematics</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>tree_dock_widget</receiver>
+   <slot>update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>11</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

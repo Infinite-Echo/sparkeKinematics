@@ -1,16 +1,17 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from PyQt5.QtWidgets import QTreeView, QApplication, QWidget, QVBoxLayout, QSizePolicy
+from PyQt5.QtWidgets import QTreeView, QApplication, QWidget, QVBoxLayout, QSizePolicy, QMainWindow
 
 class EditableTree(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent: QMainWindow, ui):
         super().__init__(parent)
-
+        self.ui = ui
         # Initialize the model and set the headers for the tree
         self.model = QStandardItemModel()
         self.model.setHorizontalHeaderLabels(['Robot', ''])
         self.tree = QTreeView(self)
         self.tree.setModel(self.model)
+        self.mode = 'fk'
 
         # Add some items to the tree, with the first column unable to be edited
         self.parent_item = self.model.invisibleRootItem()
@@ -23,6 +24,8 @@ class EditableTree(QWidget):
 
         layout = QVBoxLayout(self)
         layout.addWidget(self.tree)
+        self.ui.actionForward_Kinematics.triggered.connect(self.toggle_ik)
+        self.ui.actionInverse_Kinematics.triggered.connect(self.toggle_fk)
 
     def generate_base_item(self):
         base_item = QStandardItem('Base')
@@ -91,9 +94,21 @@ class EditableTree(QWidget):
         item.setFlags(item.flags() & ~Qt.ItemIsEditable)
         return item
 
-    def change_mode(self):
+    def update_mode(self):
         #toggle editability of joint angles (fk) / pos (ik) 
-        pass
+        if self.ui.actionForward_Kinematics.isChecked()==True and self.ui.actionInverse_Kinematics.isChecked()==False:
+            self.mode = 'fk'
+        elif self.ui.actionForward_Kinematics.isChecked()==False and self.ui.actionInverse_Kinematics.isChecked()==True:
+            self.mode = 'ik'
+        print(self.mode)
+        
+    def toggle_fk(self):
+        self.ui.actionForward_Kinematics.toggle()
+        self.update_mode()
+
+    def toggle_ik(self):
+        self.ui.actionInverse_Kinematics.toggle()
+        self.update_mode()
 
 if __name__ == '__main__':
     app = QApplication([])
