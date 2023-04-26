@@ -7,9 +7,9 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from matplotlib_widget import Matplotlib3DWidget
+from tree_widget import EditableTree
 
 class App(QMainWindow):
-
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Robot Dog Control')
@@ -24,6 +24,10 @@ class App(QMainWindow):
         plot_widget = Matplotlib3DWidget(self)
         plot_layout = self.ui.plot_layout
         plot_layout.addWidget(plot_widget)
+
+        tree_widget = EditableTree(self)
+        tree_layout = self.ui.tree_layout
+        tree_layout.addWidget(tree_widget)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
