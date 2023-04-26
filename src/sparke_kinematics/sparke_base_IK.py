@@ -1,4 +1,4 @@
-from sparke_leg_IK import SparkeLeg
+from sparke_kinematics.sparke_leg_IK import SparkeLeg
 import numpy as np
 
 class SparkeBase():
