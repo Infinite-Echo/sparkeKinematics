@@ -1,7 +1,6 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QModelIndex
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QTreeView, QApplication, QWidget, QVBoxLayout, QSizePolicy, QMainWindow
-from kinematics_np.sparke_base_IK import SparkeBase
 from mainwindow import Ui_MainWindow
 
 class EditableTree(QWidget):

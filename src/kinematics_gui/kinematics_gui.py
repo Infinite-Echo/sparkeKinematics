@@ -1,6 +1,7 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QTreeWidgetItem
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt, QModelIndex
 from mainwindow import Ui_MainWindow
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
@@ -29,9 +30,18 @@ class App(QMainWindow):
         tree_widget = EditableTree(self)
         self.tree_layout = self.ui.tree_layout
         self.tree_layout.addWidget(tree_widget)
-        self.ui.findChild(QWidget, '')
+        model = tree_widget.tree.model()
+        
+        ctrlr = kinematicsController(self, model)
+        # print(model.rowCount())
+        # base_index = model.index(0,0,QModelIndex())
+        # print(base_index.data())
+        # base_model = base_index.model()
+        # base_model.setData(base_index, 'Hello')
+        # print(base_index.data())
 
-        controller = kinematicsController(self)
+
+        # controller = kinematicsController(self)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

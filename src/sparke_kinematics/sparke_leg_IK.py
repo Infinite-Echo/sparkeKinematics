@@ -1,6 +1,6 @@
 import numpy as np
-import leg_transformations as legtf
-import base_transformations as basetf
+import sparke_kinematics.leg_transformations as legtf
+import sparke_kinematics.base_transformations as basetf
 
 class SparkeLeg():
     def __init__(self, leg_id):
