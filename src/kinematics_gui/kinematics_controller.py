@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QTreeView, QApplication, QWidget, QVBoxLayout, QSize
 import numpy as np
 from mainwindow import Ui_MainWindow
 from kinematics_controller_utils import *
+import forward_kinematics_utils as fk_utils
 import time
 import copy
 class kinematicsController():
@@ -79,11 +80,14 @@ class kinematicsController():
         try:
             self.update_Tm()
             angles = self.get_angles_from_tree()
-            for leg in self.sparke_legs:
-                leg.update_Tb0(self.Tm)
-                t_b1 = leg.get_tb1()
-                t_b2 = leg.get_tb2()
-                t_b3 = leg.get_tb3()
+            for i in range(4):
+                positions = fk_utils.get_leg_positions(self.sparke_legs[i], self.Tm, angles[i])
+                for j in range(4):
+                    
+                
+                
+
+
                     
         except:
             pass
