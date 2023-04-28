@@ -30,7 +30,7 @@ def get_position_index(model, index):
     return position_index
 
 def get_angle_index(model, index):
-    angle_index = model.index(0,0,index)
+    angle_index = model.index(1,0,index)
     return angle_index
 
 def get_positions(model, link_name, joint_name=None):

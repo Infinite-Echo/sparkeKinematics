@@ -2,6 +2,7 @@ from PyQt5.QtCore import Qt, QModelIndex
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QTreeView, QApplication, QWidget, QVBoxLayout, QSizePolicy, QMainWindow
 from mainwindow import Ui_MainWindow
+from kinematics_controller_utils import *
 
 class EditableTree(QWidget):
     def __init__(self, parent: QMainWindow):
@@ -12,7 +13,8 @@ class EditableTree(QWidget):
         self.model.setHorizontalHeaderLabels(['Robot', ''])
         self.tree = QTreeView(self)
         self.tree.setModel(self.model)
-        self.mode = 'fk'
+        self.tree.setColumnWidth(0, 150)
+        self.tree.setColumnWidth(1, 50)
 
         # Add some items to the tree, with the first column unable to be edited
         self.parent_item = self.model.invisibleRootItem()
@@ -27,11 +29,13 @@ class EditableTree(QWidget):
         layout.addWidget(self.tree)
         self.ui.actionForward_Kinematics.triggered.connect(self.toggle_ik)
         self.ui.actionInverse_Kinematics.triggered.connect(self.toggle_fk)
+        self.mode = 'fk'
+        self.update_mode()
 
     def generate_base_item(self):
         base_item = QStandardItem('Base')
         base_item.setEditable(False)
-        base_item.appendRow([self.generate_position_item(), self.generate_empty_item()])
+        base_item.appendRow([self.generate_position_item(True), self.generate_empty_item()])
         base_item.appendRow([self.generate_base_rot_item(), self.generate_empty_item()])
         return base_item
     
@@ -58,14 +62,14 @@ class EditableTree(QWidget):
             joint_items.append(joint_item)
         return joint_items
             
-    def generate_position_item(self):
+    def generate_position_item(self, editable=False):
         pos_parent_item = QStandardItem('Position')
         pos_parent_item.setEditable(False)
         positions = ['X', 'Y', 'Z']
         for position in positions:
             position_item = QStandardItem(position)
             position_item.setEditable(False)
-            pos_parent_item.appendRow([position_item, self.generate_empty_item()])
+            pos_parent_item.appendRow([position_item, self.generate_empty_item(editable)])
         return pos_parent_item
     
     def generate_base_rot_item(self):
@@ -109,10 +113,43 @@ class EditableTree(QWidget):
         self.update_mode()
 
     def activate_ik_mode(self):
-        pass
+        self.set_wrists_to_editable(True)
+        self.set_angles_to_editable(False)
 
     def activate_fk_mode(self):
-        pass
+        self.set_wrists_to_editable(False)
+        self.set_angles_to_editable(True)
+
+    def set_wrists_to_editable(self, editable: bool):
+        model = self.tree.model()
+        legs = ['Front Left',
+                'Front Right',
+                'Back Left',
+                'Back Right',]
+        for leg in legs:
+            link_index = get_link_index(model, leg)
+            position_index = get_position_index(model, get_joint_index(model, link_index, 'Wrist'))
+            for i in range(3):
+                val_index = model.index(i,1,position_index)
+                item = QStandardItemModel.itemFromIndex(self.tree.model(), val_index)
+                item.setEditable(editable)
+
+    def set_angles_to_editable(self, editable: bool):
+        model = self.tree.model()
+        legs = ['Front Left',
+                'Front Right',
+                'Back Left',
+                'Back Right',]
+        joints = ['Shoulder',
+                  'Leg',
+                  'Wrist',]
+        for leg in legs:
+            link_index = get_link_index(model, leg)
+            for joint in joints:
+                angle_index = get_angle_index(model, get_joint_index(model, link_index, joint))
+                val_index = model.index(0,1,angle_index)
+                item = QStandardItemModel.itemFromIndex(self.tree.model(), val_index)
+                item.setEditable(editable)
 
 if __name__ == '__main__':
     app = QApplication([])

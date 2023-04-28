@@ -23,18 +23,18 @@ class kinematicsController():
             2: 'Wrist',
         }
         kinematicsController.HOME_POSITIONS = [
-            [1, 12, 0], #FL Shoulder
-            [2, 11, 1], #FL Leg
-            [3, 10, 0], #FL Wrist
-            [4, 9, 1], #FR Shoulder
-            [5, 8, 0], #FR Leg
-            [6, 7, 1], #FR Wrist
-            [7, 6, 0], #BL Shoulder
-            [8, 5, 1], #BL Leg
-            [9, 4, 0], #BL Wrist
-            [10, 3, 1], #BR Shoulder
-            [11, 2, 0], #BR Leg
-            [12, 1, 1], #BR Wrist
+            [1., 12., 0.], #FL Shoulder
+            [2., 11., 1.], #FL Leg
+            [3., 10., 0.], #FL Wrist
+            [4., 9., 1.], #FR Shoulder
+            [5., 8., 0.], #FR Leg
+            [6., 7., 1.], #FR Wrist
+            [7., 6., 0.], #BL Shoulder
+            [8., 5., 1.], #BL Leg
+            [9., 4., 0.], #BL Wrist
+            [10., 3., 1.], #BR Shoulder
+            [11., 2., 0.], #BR Leg
+            [12., 1., 1.], #BR Wrist
         ]
         self.current_positions = copy.deepcopy(kinematicsController.HOME_POSITIONS)
         self.ui = parent.ui
@@ -61,6 +61,7 @@ class kinematicsController():
 
     def home(self):
         self.Tm = basetf.create_base_transformation(0, 0, 0, 0, 0, 0)
+        set_positions(self.model, 'Base', [0.,0.,0.])
         for i in range(4):
             self.sparke_legs[i].update_Tb0(self.Tm)
             set_positions(self.model, kinematicsController.LEG_DICT[i], kinematicsController.HOME_POSITIONS[3*i], kinematicsController.JOINT_DICT[0])
@@ -82,13 +83,9 @@ class kinematicsController():
             angles = self.get_angles_from_tree()
             for i in range(4):
                 positions = fk_utils.get_leg_positions(self.sparke_legs[i], self.Tm, angles[i])
-                for j in range(4):
-                    
-                
-                
-
-
-                    
+                for j in range(1,4):
+                    set_positions(self.model, kinematicsController.LEG_DICT[i], \
+                                  positions[j], kinematicsController.JOINT_DICT[j-1])                    
         except:
             pass
         #store current angles and positions
@@ -96,8 +93,6 @@ class kinematicsController():
         # solve
         #except:
         # restore original values
-        pass
-        #grab angles from ui and convert to rads
 
     def update_Tm(self):
         base_positions = get_positions(self.model, 'Base')
@@ -109,5 +104,6 @@ class kinematicsController():
         angles = []
         for i in range(4):
             for j in range(3):
-                angles.append(get_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[j]))
+                angle = get_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[j])
+                angles.append(float(np.deg2rad(angle)))
         return angles
