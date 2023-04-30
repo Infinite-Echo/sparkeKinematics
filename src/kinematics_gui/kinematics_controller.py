@@ -59,6 +59,61 @@ class kinematicsController():
             self.sparke_legs.append(SparkeLeg(leg))
         self.home()
 
+    def home(self):
+        self.current_positions = copy.deepcopy(kinematicsController.HOME_POSITIONS)
+        self.current_angles = copy.deepcopy(kinematicsController.HOME_ANGLES)
+        self.Tm = basetf.create_base_transformation(0, 0, 0, 0, 0, 0)
+        set_positions(self.model, 'Base', [0.,0.,0.])
+        set_base_rotations(self.model, [0.,0.,0.])
+        for i in range(4):
+            self.sparke_legs[i].update_Tb0(self.Tm)
+            set_positions(self.model, kinematicsController.LEG_DICT[i], kinematicsController.HOME_POSITIONS[(4*i)+1], kinematicsController.JOINT_DICT[0])
+            set_positions(self.model, kinematicsController.LEG_DICT[i], kinematicsController.HOME_POSITIONS[(4*i)+2], kinematicsController.JOINT_DICT[1])
+            set_positions(self.model, kinematicsController.LEG_DICT[i], kinematicsController.HOME_POSITIONS[(4*i)+3], kinematicsController.JOINT_DICT[2])
+            set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[0], kinematicsController.HOME_ANGLES[i][0])
+            set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[1], kinematicsController.HOME_ANGLES[i][1])
+            set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[2], kinematicsController.HOME_ANGLES[i][2])
+        self.update_plot()
+        
+    def solve_ik(self):
+        old_angles = copy.deepcopy(self.current_angles)
+        old_positions = copy.deepcopy(self.current_positions)
+        self.update_Tm()
+        try:
+            for i in range(4):
+                end_effector_positions = get_positions(self.model, kinematicsController.LEG_DICT[i], 'Wrist')
+                print(end_effector_positions)
+                self.sparke_legs[i].solve_angles(self.Tm, end_effector_positions[0], end_effector_positions[1], end_effector_positions[2])
+                self.current_angles[i][0] = self.sparke_legs[i].theta1
+                self.current_angles[i][1] = self.sparke_legs[i].theta2
+                self.current_angles[i][2] = self.sparke_legs[i].theta3
+                for j in range(3):
+                    set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[j], self.current_angles[i][j])
+            self.solve_fk()
+        except:
+            print('No Possible Solution For Given End Effectors')
+            self.restore_old_angles(old_angles)
+            self.restore_old_positions(old_positions)
+
+    def solve_fk(self):
+        old_positions = copy.deepcopy(self.current_positions)
+        old_angles = copy.deepcopy(self.current_angles)
+        try:
+            self.update_Tm()
+            self.current_angles = self.get_angles_from_tree()
+            for i in range(4):
+                positions = fk_utils.get_leg_positions(self.sparke_legs[i], self.Tm, self.current_angles[i])
+                self.current_positions[(i*4)] = positions[0]
+                self.current_positions[(i*4)+1] = positions[1]
+                self.current_positions[(i*4)+2] = positions[2]
+                self.current_positions[(i*4)+3] = positions[3]
+            self.set_tree_to_current_vals()
+            print('FK Solved')        
+        except:
+            print('Invalid Inputs For FK, Unable to Solve')
+            self.restore_old_positions(old_positions)
+            self.restore_old_angles(old_angles)
+                
     def data_changed(self):
         self.model.blockSignals(True)
         if(self.data_different()):
@@ -102,73 +157,30 @@ class kinematicsController():
             array.append(self.current_positions[(4*i)+3])
             self.plot_widget.update_plot(array, colors[i])
 
-    def update_current_positions(self):
-        self.update_Tm()
+    def set_tree_to_current_vals(self):
         for i in range(4):
-            self.sparke_legs[i].update_Tb0(self.Tm)
-            t_b0 = self.sparke_legs[i].t_b0
-            self.current_positions[i*4] = [t_b0[0,3], t_b0[1,3], t_b0[2,3]]
-            self.current_positions[(i*4)+1] = get_positions(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[0])
-            self.current_positions[(i*4)+2] = get_positions(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[1])
-            self.current_positions[(i*4)+3] = get_positions(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[2])
+            set_positions(self.model, kinematicsController.LEG_DICT[i], self.current_positions[(4*i)+1], kinematicsController.JOINT_DICT[0])
+            set_positions(self.model, kinematicsController.LEG_DICT[i], self.current_positions[(4*i)+2], kinematicsController.JOINT_DICT[1])
+            set_positions(self.model, kinematicsController.LEG_DICT[i], self.current_positions[(4*i)+3], kinematicsController.JOINT_DICT[2])
+            set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[0], self.current_angles[i][0])
+            set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[1], self.current_angles[i][1])
+            set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[2], self.current_angles[i][2])
 
-    def home(self):
-        self.current_positions = copy.deepcopy(kinematicsController.HOME_POSITIONS)
-        self.current_angles = copy.deepcopy(kinematicsController.HOME_ANGLES)
-        self.Tm = basetf.create_base_transformation(0, 0, 0, 0, 0, 0)
-        set_positions(self.model, 'Base', [0.,0.,0.])
-        set_base_rotations(self.model, [0.,0.,0.])
+    def restore_old_positions(self, old_positions):
+        self.current_positions = copy.deepcopy(old_positions)
         for i in range(4):
-            self.sparke_legs[i].update_Tb0(self.Tm)
-            set_positions(self.model, kinematicsController.LEG_DICT[i], kinematicsController.HOME_POSITIONS[(4*i)+1], kinematicsController.JOINT_DICT[0])
-            set_positions(self.model, kinematicsController.LEG_DICT[i], kinematicsController.HOME_POSITIONS[(4*i)+2], kinematicsController.JOINT_DICT[1])
-            set_positions(self.model, kinematicsController.LEG_DICT[i], kinematicsController.HOME_POSITIONS[(4*i)+3], kinematicsController.JOINT_DICT[2])
-            set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[0], kinematicsController.HOME_ANGLES[i][0])
-            set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[1], kinematicsController.HOME_ANGLES[i][1])
-            set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[2], kinematicsController.HOME_ANGLES[i][2])
-        self.update_plot()
-        
-    def solve_ik(self):
-        old_angles = copy.deepcopy(self.current_angles)
-        self.update_Tm()
-        try:
-            for i in range(4):
-                end_effector_positions = []
-                end_effector_positions.append(get_positions(self.model, kinematicsController.LEG_DICT[i], 'Wrist'))
-                self.sparke_legs[i].solve_angles(self.Tm, end_effector_positions[0], end_effector_positions[1], end_effector_positions[2])
-                self.current_angles[i][0] = self.sparke_legs[i].theta1
-                self.current_angles[i][1] = self.sparke_legs[i].theta2
-                self.current_angles[i][2] = self.sparke_legs[i].theta3
-                for j in range(3):
-                    set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[j], self.current_angles[i][j])
-            self.solve_fk()
-        except:
-            self.current_angles = copy.deepcopy(old_angles)
-            for i in range(4):
-                for j in range(3):
-                    set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[j], self.current_angles[i][j])
-
-    def solve_fk(self):
-        old_positions = copy.deepcopy(self.current_positions)
-        try:
-            self.update_Tm()
-            angles = self.get_angles_from_tree()
-            for i in range(4):
-                positions = fk_utils.get_leg_positions(self.sparke_legs[i], self.Tm, angles[i])
-                for j in range(1,4):
-                    set_positions(self.model, kinematicsController.LEG_DICT[i], \
-                                  positions[j], kinematicsController.JOINT_DICT[j-1])
-            self.update_current_positions()                 
-        except:
-            print('Invalid Inputs For FK, Unable to Solve')
-            self.current_positions = copy.deepcopy(old_positions)
-            for i in range(4):
-                set_positions(self.model, kinematicsController.LEG_DICT[i], kinematicsController.HOME_POSITIONS[(4*i)+1], \
-                              kinematicsController.JOINT_DICT[0])
-                set_positions(self.model, kinematicsController.LEG_DICT[i], kinematicsController.HOME_POSITIONS[(4*i)+2], \
-                              kinematicsController.JOINT_DICT[1])
-                set_positions(self.model, kinematicsController.LEG_DICT[i], kinematicsController.HOME_POSITIONS[(4*i)+3], \
-                              kinematicsController.JOINT_DICT[2])
+            set_positions(self.model, kinematicsController.LEG_DICT[i], self.current_positions[(4*i)+1], \
+                            kinematicsController.JOINT_DICT[0])
+            set_positions(self.model, kinematicsController.LEG_DICT[i], self.current_positions[(4*i)+2], \
+                            kinematicsController.JOINT_DICT[1])
+            set_positions(self.model, kinematicsController.LEG_DICT[i], self.current_positions[(4*i)+3], \
+                            kinematicsController.JOINT_DICT[2])
+            
+    def restore_old_angles(self, old_angles):
+        self.current_angles = copy.deepcopy(old_angles)
+        for i in range(4):
+            for j in range(3):
+                set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[j], self.current_angles[i][j])
 
     def update_Tm(self):
         self.base_positions = get_positions(self.model, 'Base')

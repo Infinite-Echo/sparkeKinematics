@@ -114,12 +114,18 @@ class EditableTree(QWidget):
         self.update_mode()
 
     def activate_ik_mode(self):
+        model = self.tree.model()
+        model.blockSignals(True)
         self.set_wrists_to_editable(True)
         self.set_angles_to_editable(False)
+        model.blockSignals(False)
 
     def activate_fk_mode(self):
+        model = self.tree.model()
+        model.blockSignals(True)
         self.set_wrists_to_editable(False)
         self.set_angles_to_editable(True)
+        model.blockSignals(False)
 
     def set_wrists_to_editable(self, editable: bool):
         model = self.tree.model()
