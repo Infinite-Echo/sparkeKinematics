@@ -29,6 +29,7 @@ class EditableTree(QWidget):
         layout.addWidget(self.tree)
         self.ui.actionForward_Kinematics.triggered.connect(self.toggle_ik)
         self.ui.actionInverse_Kinematics.triggered.connect(self.toggle_fk)
+        
         self.mode = 'fk'
         self.update_mode()
 

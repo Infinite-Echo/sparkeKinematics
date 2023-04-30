@@ -4,6 +4,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from sparke_leg_IK import SparkeLeg as spLegIK
 import base_transformations as basetf
 import leg_transformations as legtf
+import csv
 
 def plot_points(arr1, arr2, arr3, arr4, arr5, arr6, arr7, arr8):
     # Create figure and 3D axis
@@ -30,7 +31,14 @@ def plot_points(arr1, arr2, arr3, arr4, arr5, arr6, arr7, arr8):
     # Show the plot
     plt.show()
 
+def append_to_csv(filepath, row):
+    with open(filepath, 'a', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(row)
+
 def main():
+    filepath = '/home/echo/workspaces/sparkeKinematics/temp2.csv'
+
     Tm = basetf.create_base_transformation(0, 0, 0, 0, 0, 0)
     tb0 = legtf.create_Tb0(Tm, 1, 1)
     t01 = legtf.create_T01(0)
@@ -50,7 +58,6 @@ def main():
     print(f'theta1: {leg1.theta1}')
     print(f'theta2: {leg1.theta2}')
     print(f'theta3: {leg1.theta3}')
-
     
     tb0 = legtf.create_Tb0(Tm, 1, -1)
     t01 = legtf.create_T01(0)
@@ -232,6 +239,11 @@ def main():
 
     points_arr8 = np.append(points_arr8, [[0,0,0], [i4_x0, i4_y0, i4_z0], [i4_x1, i4_y1, i4_z1]], axis=0)
     points_arr8 = np.append(points_arr8, [[i4_x2, i4_y2, i4_z2], [i4_x3, i4_y3, i4_z3]], axis=0)
+
+    append_to_csv(filepath, points_arr1)
+    append_to_csv(filepath, points_arr3)
+    append_to_csv(filepath, points_arr5)
+    append_to_csv(filepath, points_arr7)
 
     plot_points(points_arr1, points_arr2, points_arr3, points_arr4, points_arr5, points_arr6, points_arr7, points_arr8)
 

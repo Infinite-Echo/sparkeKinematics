@@ -41,3 +41,18 @@ class Matplotlib3DWidget(QWidget):
     def on_button_release(self, event):
         if event.button == Qt.LeftButton:
             self.button_pressed = False
+
+    def update_plot(self, positions, color='blue'):
+        """
+        Update the plot with an array of 3D positions, connected by a line with the specified color.
+        :param positions: list of 3D positions, each of the form [x, y, z]
+        :param color: optional color string for the line
+        """
+        xs, ys, zs = zip(*positions)
+        self.ax.plot(xs, ys, zs, color=color)
+        self.canvas.draw()
+        # print(f'shouldve updated {color}')
+
+    def clear_plot(self):
+        self.ax.clear()
+        self.canvas.draw()

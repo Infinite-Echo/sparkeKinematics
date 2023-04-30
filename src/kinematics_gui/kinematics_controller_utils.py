@@ -80,6 +80,8 @@ def get_joint_angle(model, link_name, joint_name):
     return float(val_index.data())
 
 def set_joint_angle(model, link_name, joint_name, angle):
+    angle = np.rad2deg(angle)
+    angle = float(round(angle))
     link_index = get_link_index(model, link_name)
     angle_index = get_angle_index(model, get_joint_index(model, link_index, joint_name))
     val_index = model.index(0,1,angle_index)
