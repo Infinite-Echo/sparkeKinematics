@@ -37,6 +37,7 @@ class App(QMainWindow):
         self.controller = kinematicsController(self, model, self.plot_widget)
         # Connect the dataChanged signal to the controller's slot
         self.data_changed_signal.connect(self.controller.data_changed)
+        self.ui.actionReset.triggered.connect(self.controller.home)
 
         # Emit the signal when the model's data changes
         model.dataChanged.connect(lambda i1, i2: self.data_changed_signal.emit(i1, i2))

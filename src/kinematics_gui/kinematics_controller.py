@@ -60,6 +60,7 @@ class kinematicsController():
         self.home()
 
     def home(self):
+        self.model.blockSignals(True)
         self.current_positions = copy.deepcopy(kinematicsController.HOME_POSITIONS)
         self.current_angles = copy.deepcopy(kinematicsController.HOME_ANGLES)
         self.Tm = basetf.create_base_transformation(0, 0, 0, 0, 0, 0)
@@ -73,6 +74,7 @@ class kinematicsController():
             set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[0], kinematicsController.HOME_ANGLES[i][0])
             set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[1], kinematicsController.HOME_ANGLES[i][1])
             set_joint_angle(self.model, kinematicsController.LEG_DICT[i], kinematicsController.JOINT_DICT[2], kinematicsController.HOME_ANGLES[i][2])
+        self.model.blockSignals(False)
         self.update_plot()
         
     def solve_ik(self):
@@ -143,10 +145,13 @@ class kinematicsController():
             2: 'green',
             3: 'purple',
         }
-        base_array = []
-        base_array.append(self.current_positions[12])
-        for i in range(4):
-            base_array.append(self.current_positions[(i*4)])
+        base_array = [
+            self.current_positions[0],
+            self.current_positions[4],
+            self.current_positions[12],
+            self.current_positions[8],
+            self.current_positions[0],
+        ]
         self.plot_widget.update_plot(base_array, color='orange')
 
         for i in range(4):
