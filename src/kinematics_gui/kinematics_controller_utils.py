@@ -54,7 +54,7 @@ def set_positions(model, link_name, positions, joint_name=None):
     for i in range(3):
         val_index = model.index(i,1,position_index)
         val_model = val_index.model()
-        val_model.setData(val_index, positions[i])
+        val_model.setData(val_index, float(positions[i]))
 
 def get_base_rotations(model):
     link_index = get_link_index(model, 'Base')
@@ -71,7 +71,7 @@ def set_base_rotations(model, rotations):
     for i in range(3):
         val_index = model.index(i,1,base_rotation_index)
         val_model = val_index.model()
-        val_model.setData(val_index, rotations[i])
+        val_model.setData(val_index, float(rotations[i]))
 
 def get_joint_angle(model, link_name, joint_name):
     link_index = get_link_index(model, link_name)
@@ -86,4 +86,4 @@ def set_joint_angle(model, link_name, joint_name, angle):
     angle_index = get_angle_index(model, get_joint_index(model, link_index, joint_name))
     val_index = model.index(0,1,angle_index)
     val_model = val_index.model()
-    val_model.setData(val_index, angle)
+    val_model.setData(val_index, float(angle))
