@@ -50,8 +50,12 @@ class Matplotlib3DWidget(QWidget):
         """
         xs, ys, zs = zip(*positions)
         self.ax.plot(xs, ys, zs, color=color)
+
+        self.ax.set_xlim(-0.3, 0.3)
+        self.ax.set_ylim(-0.2, 0.2)
+        self.ax.set_zlim(-0.18384776, 0.18384776)
+
         self.canvas.draw()
-        # print(f'shouldve updated {color}')
 
     def clear_plot(self):
         self.ax.clear()

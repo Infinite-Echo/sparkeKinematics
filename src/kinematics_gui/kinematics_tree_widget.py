@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QTreeView, QApplication, QWidget, QVBoxLayout, QSize
 from mainwindow import Ui_MainWindow
 from kinematics_controller_utils import *
 
-class EditableTree(QWidget):
+class KinematicsTree(QWidget):
     def __init__(self, parent: QMainWindow):
         super().__init__(parent)
         self.ui = parent.ui
@@ -160,5 +160,5 @@ class EditableTree(QWidget):
 
 if __name__ == '__main__':
     app = QApplication([])
-    window = EditableTree()
+    window = KinematicsTree()
     app.exec_()

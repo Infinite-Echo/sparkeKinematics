@@ -8,7 +8,8 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from matplotlib_widget import Matplotlib3DWidget
-from tree_widget import EditableTree
+from kinematics_tree_widget import KinematicsTree
+from trajectory_tree_widget import TrajectoryTree
 from kinematics_controller import kinematicsController
 
 class App(QMainWindow):
@@ -29,18 +30,23 @@ class App(QMainWindow):
         self.plot_layout = self.ui.plot_layout
         self.plot_layout.addWidget(self.plot_widget)
 
-        self.tree_widget = EditableTree(self)
-        self.tree_layout = self.ui.tree_layout
-        self.tree_layout.addWidget(self.tree_widget)
-        model = self.tree_widget.tree.model()
+        self.kinematics_tree_widget = KinematicsTree(self)
+        self.kinematics_tree_layout = self.ui.kinematics_tree_layout
+        self.kinematics_tree_layout.addWidget(self.kinematics_tree_widget)
+        kinematics_model = self.kinematics_tree_widget.tree.model()
+
+        self.trajectory_tree_widget = TrajectoryTree(self)
+        self.trajectory_tree_layout = self.ui.trajectory_tree_layout
+        self.trajectory_tree_layout.addWidget(self.trajectory_tree_widget)
         
-        self.controller = kinematicsController(self, model, self.plot_widget)
+        self.controller = kinematicsController(self, kinematics_model, self.plot_widget)
         # Connect the dataChanged signal to the controller's slot
         self.data_changed_signal.connect(self.controller.data_changed)
         self.ui.actionReset.triggered.connect(self.controller.home)
+        self.ui.trajectory_toggle_button.pressed.connect(self.trajectory_tree_widget.toggle_trajectory)
 
         # Emit the signal when the model's data changes
-        model.dataChanged.connect(lambda i1, i2: self.data_changed_signal.emit(i1, i2))
+        kinematics_model.dataChanged.connect(lambda i1, i2: self.data_changed_signal.emit(i1, i2))
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>903</width>
-    <height>594</height>
+    <width>991</width>
+    <height>629</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -113,7 +113,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>903</width>
+     <width>991</width>
      <height>22</height>
     </rect>
    </property>
@@ -201,12 +201,15 @@
       <number>0</number>
      </property>
      <item row="0" column="0">
-      <layout class="QGridLayout" name="tree_layout"/>
+      <layout class="QGridLayout" name="kinematics_tree_layout"/>
      </item>
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="control_dock_widget">
+  <widget class="QDockWidget" name="trajectory_dock_widget">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="sizePolicy">
     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
      <horstretch>0</horstretch>
@@ -232,7 +235,7 @@
     <set>Qt::BottomDockWidgetArea|Qt::RightDockWidgetArea|Qt::TopDockWidgetArea</set>
    </property>
    <property name="windowTitle">
-    <string>3D Visualizer</string>
+    <string>Trajectory</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
@@ -255,7 +258,7 @@
       <number>0</number>
      </property>
      <item row="0" column="0">
-      <layout class="QGridLayout" name="gridLayout_4">
+      <layout class="QGridLayout" name="trajectory_tree_layout">
        <property name="spacing">
         <number>0</number>
        </property>
@@ -264,7 +267,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="experimental_dock_widget">
+  <widget class="QDockWidget" name="control_dock_widget">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
      <horstretch>0</horstretch>
@@ -275,7 +278,7 @@
     <set>QDockWidget::NoDockWidgetFeatures</set>
    </property>
    <property name="windowTitle">
-    <string>Experimental</string>
+    <string>Control</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>
@@ -287,6 +290,50 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="2">
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="trajectory_toggle_button">
+       <property name="text">
+        <string>Toggle Trajectory</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pushButton_4">
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="pushButton_5">
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="pushButton_6">
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <action name="actionReset">
@@ -336,22 +383,5 @@
   </action>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>actionForward_Kinematics</sender>
-   <signal>triggered(bool)</signal>
-   <receiver>tree_dock_widget</receiver>
-   <slot>update()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>11</x>
-     <y>261</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
