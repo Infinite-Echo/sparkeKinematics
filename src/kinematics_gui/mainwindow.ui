@@ -123,6 +123,7 @@
     </property>
     <addaction name="actionReset"/>
     <addaction name="actionExport"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
@@ -379,6 +380,11 @@
    </property>
    <property name="text">
     <string>Kinematics</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
    </property>
   </action>
  </widget>
