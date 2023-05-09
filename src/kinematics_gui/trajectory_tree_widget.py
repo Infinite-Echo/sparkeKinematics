@@ -31,18 +31,18 @@ class TrajectoryTree(QWidget):
     def generate_velocity_item(self):
         vel_item = QStandardItem('Velocity')
         vel_item.setEditable(False)
-        vel_item.appendRow([self.generate_linear_vel_item(True), self.generate_empty_item()])
+        vel_item.appendRow([self.generate_linear_vel_item(), self.generate_empty_item()])
         vel_item.appendRow([self.generate_angular_vel_item(), self.generate_empty_item()])
         return vel_item
 
-    def generate_linear_vel_item(self, editable=False):
+    def generate_linear_vel_item(self):
         linear_vel_parent_item = QStandardItem('Position')
         linear_vel_parent_item.setEditable(False)
         linear_vels = ['X', 'Y', 'Z']
         for vel in linear_vels:
             vel_item = QStandardItem(vel)
             vel_item.setEditable(False)
-            linear_vel_parent_item.appendRow([vel_item, self.generate_empty_item(editable)])
+            linear_vel_parent_item.appendRow([vel_item, self.generate_empty_item(True)])
         return linear_vel_parent_item
     
     def generate_angular_vel_item(self):
