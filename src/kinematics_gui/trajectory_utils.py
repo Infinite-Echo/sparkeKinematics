@@ -27,7 +27,7 @@ def set_velocity(model, cmd_vel):
 
 def get_points(model):
     points = []
-    for i in range(1, 12):
+    for i in range(1, 13):
         position = []
         point_index = get_point_index(model, i)
         for j in range(3):
@@ -37,7 +37,7 @@ def get_points(model):
     return points
 
 def set_points(model, points):
-    for i in range(1, 12):
+    for i in range(1, 13):
         position = points[i-1]
         point_index = get_point_index(model, i)
         for j in range(3):

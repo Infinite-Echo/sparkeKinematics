@@ -3,11 +3,28 @@ from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QTreeView, QApplication, QWidget, QVBoxLayout, QSizePolicy, QMainWindow
 from trajectory_utils import *
 class TrajectoryTree(QWidget):
-    DEFAULT_VEL = [0.0] * 6
-    DEFAULT_POINTS = [[0.0] * 3 for _ in range(12)]
+    DEFAULT_VEL = [
+        0.1, 0.0, 0.0, 0.0, 0.0, 0.0,
+    ]
+    END_POINT = [0.10807106781186548, 0.11, -0.18384776310850237]
+    DEFAULT_CONTROL_POINTS = [
+        [END_POINT[0] - DEFAULT_VEL[0], END_POINT[1], END_POINT[2]], #0
+        [END_POINT[0] - DEFAULT_VEL[0] - 0.01, END_POINT[1], END_POINT[2]], #1
+        [END_POINT[0] - DEFAULT_VEL[0] - 0.02, END_POINT[1], END_POINT[2]+0.03], #2
+        [END_POINT[0] - DEFAULT_VEL[0] - 0.02, END_POINT[1], END_POINT[2]+0.03], #3
+        [END_POINT[0] - DEFAULT_VEL[0] - 0.02, END_POINT[1], END_POINT[2]+0.03], #4
+        [END_POINT[0] - (DEFAULT_VEL[0]/2), END_POINT[1], END_POINT[2]+0.03], #5
+        [END_POINT[0] - (DEFAULT_VEL[0]/2), END_POINT[1], END_POINT[2]+0.03], #6
+        [END_POINT[0] - (DEFAULT_VEL[0]/2), END_POINT[1], END_POINT[2]+0.05], #7
+        [END_POINT[0]+0.02, END_POINT[1], END_POINT[2]+0.05], #8 
+        [END_POINT[0]+0.02, END_POINT[1], END_POINT[2]+0.05], #9 
+        [END_POINT[0]+0.01, END_POINT[1], END_POINT[2]], #10
+        END_POINT,
+    ]
 
     def __init__(self, parent: QMainWindow):
         super().__init__(parent)
+        self.__parent = parent
         self.ui = parent.ui
         # Initialize the model and set the headers for the tree
         self.model = QStandardItemModel()
@@ -18,7 +35,7 @@ class TrajectoryTree(QWidget):
         self.tree.setColumnWidth(1, 50)
         self.tree_model = self.tree.model()
 
-        self.trajectory_enabled = False
+        self.points_enabled = False
 
         # Add some items to the tree, with the first column unable to be edited
         self.parent_item = self.model.invisibleRootItem()
@@ -30,7 +47,9 @@ class TrajectoryTree(QWidget):
             self.parent_item.appendRow([point, self.generate_empty_item()])
 
         set_velocity(self.tree_model, self.DEFAULT_VEL)
-        set_points(self.tree_model, self.DEFAULT_POINTS)
+        set_points(self.tree_model, self.DEFAULT_CONTROL_POINTS)
+
+        self.__parent.plot_widget.plot_points(self.DEFAULT_CONTROL_POINTS)
 
         layout = QVBoxLayout(self)
         layout.addWidget(self.tree)
@@ -49,7 +68,11 @@ class TrajectoryTree(QWidget):
         for vel in linear_vels:
             vel_item = QStandardItem(vel)
             vel_item.setEditable(False)
-            linear_vel_parent_item.appendRow([vel_item, self.generate_empty_item(True)])
+            if vel == 'Z':
+                editing = False
+            else:
+                editing = True
+            linear_vel_parent_item.appendRow([vel_item, self.generate_empty_item(editing)])
         return linear_vel_parent_item
     
     def generate_angular_vel_item(self):
@@ -59,7 +82,11 @@ class TrajectoryTree(QWidget):
         for vel in angular_vels:
             vel_item = QStandardItem(vel)
             vel_item.setEditable(False)
-            angular_vel_parent_item.appendRow([vel_item, self.generate_empty_item(True)])
+            if vel == 'Z\'':
+                editing = True
+            else:
+                editing = False
+            angular_vel_parent_item.appendRow([vel_item, self.generate_empty_item(editing)])
         return angular_vel_parent_item
 
     def generate_point_items(self):
@@ -70,13 +97,17 @@ class TrajectoryTree(QWidget):
         positions = ['X', 'Y', 'Z']
             
         point_items = []
-        for point in points:
-            pos_parent_item = QStandardItem(point)
+        for i in range(len(points)):
+            pos_parent_item = QStandardItem(points[i])
             pos_parent_item.setEditable(False)
+            if i in range(1,11):
+                editing = True
+            else:
+                editing = False
             for position in positions:
                 position_item = QStandardItem(position)
                 position_item.setEditable(False)
-                pos_parent_item.appendRow([position_item, self.generate_empty_item(True)])
+                pos_parent_item.appendRow([position_item, self.generate_empty_item(editing)])
             point_items.append(pos_parent_item)
         return point_items
     
@@ -85,21 +116,40 @@ class TrajectoryTree(QWidget):
         item.setEditable(editable)
         return item
 
-    def toggle_trajectory(self):
-        self.trajectory_enabled = not self.trajectory_enabled
-
-        if self.trajectory_enabled:
-            self.ui.trajectory_dock_widget.setEnabled(True)
+    def toggle_points(self):
+        self.points_enabled = not self.points_enabled
+        if self.points_enabled:
+            control_points = self.generate_control_points()
+            self.__parent.plot_widget.plot_points(control_points)
         else:
-            set_velocity(self.tree_model, self.DEFAULT_VEL)
-            set_points(self.tree_model, self.DEFAULT_POINTS)
-            self.ui.trajectory_dock_widget.setEnabled(False)
+            self.__parent.plot_widget.clear_points()
     
     def reset_trajectory(self):
-        set_points(self.tree_model, self.DEFAULT_POINTS)
+        set_points(self.tree_model, self.DEFAULT_CONTROL_POINTS)
 
     def reset_velocity(self):
         set_velocity(self.tree_model, self.DEFAULT_VEL)
 
     def plot_trajectory(self):
-        pass
+        control_points = self.generate_control_points()
+        self.__parent.plot_widget.plot_trajectory(control_points)
+
+    def generate_control_points(self):
+        model = self.tree.model()
+        vel = get_velocity(self.tree_model)
+        points = get_points(self.tree_model)
+
+        points[0][0] = self.END_POINT[0] - vel[0]
+        points[0][1] = self.END_POINT[1] - vel[1]
+        points[0][2] = self.END_POINT[2] - vel[2]
+        points[11] = self.END_POINT
+        
+        model.blockSignals(True)
+        set_points(self.tree_model, points)
+        model.blockSignals(False)
+        return points
+        
+    def data_changed(self):
+        if self.points_enabled:
+            control_points = self.generate_control_points()
+            self.__parent.plot_widget.plot_points(control_points)
