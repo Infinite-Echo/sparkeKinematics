@@ -1,8 +1,11 @@
 from PyQt5.QtCore import Qt, QModelIndex
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QTreeView, QApplication, QWidget, QVBoxLayout, QSizePolicy, QMainWindow
-
+from trajectory_utils import *
 class TrajectoryTree(QWidget):
+    DEFAULT_VEL = [0.0] * 6
+    DEFAULT_POINTS = [[0.0] * 3 for _ in range(12)]
+
     def __init__(self, parent: QMainWindow):
         super().__init__(parent)
         self.ui = parent.ui
@@ -13,6 +16,7 @@ class TrajectoryTree(QWidget):
         self.tree.setModel(self.model)
         self.tree.setColumnWidth(0, 125)
         self.tree.setColumnWidth(1, 50)
+        self.tree_model = self.tree.model()
 
         self.trajectory_enabled = False
 
@@ -25,6 +29,9 @@ class TrajectoryTree(QWidget):
         for point in point_items:
             self.parent_item.appendRow([point, self.generate_empty_item()])
 
+        set_velocity(self.tree_model, self.DEFAULT_VEL)
+        set_points(self.tree_model, self.DEFAULT_POINTS)
+
         layout = QVBoxLayout(self)
         layout.addWidget(self.tree)
 
@@ -36,7 +43,7 @@ class TrajectoryTree(QWidget):
         return vel_item
 
     def generate_linear_vel_item(self):
-        linear_vel_parent_item = QStandardItem('Position')
+        linear_vel_parent_item = QStandardItem('Linear')
         linear_vel_parent_item.setEditable(False)
         linear_vels = ['X', 'Y', 'Z']
         for vel in linear_vels:
@@ -46,7 +53,7 @@ class TrajectoryTree(QWidget):
         return linear_vel_parent_item
     
     def generate_angular_vel_item(self):
-        angular_vel_parent_item = QStandardItem('Rotation')
+        angular_vel_parent_item = QStandardItem('Angular')
         angular_vel_parent_item.setEditable(False)
         angular_vels = ['X\'', 'Y\'', 'Z\'']
         for vel in angular_vels:
@@ -77,19 +84,22 @@ class TrajectoryTree(QWidget):
         item = QStandardItem('')
         item.setEditable(editable)
         return item
-    
-    def get_points(self):
-        child = self.parent_item.child(0, 0)
-        child = child.child(0,0)
-        index = child.index()
-        print(index.data())
-        
 
     def toggle_trajectory(self):
         self.trajectory_enabled = not self.trajectory_enabled
 
         if self.trajectory_enabled:
             self.ui.trajectory_dock_widget.setEnabled(True)
-            self.get_points()
         else:
+            set_velocity(self.tree_model, self.DEFAULT_VEL)
+            set_points(self.tree_model, self.DEFAULT_POINTS)
             self.ui.trajectory_dock_widget.setEnabled(False)
+    
+    def reset_trajectory(self):
+        set_points(self.tree_model, self.DEFAULT_POINTS)
+
+    def reset_velocity(self):
+        set_velocity(self.tree_model, self.DEFAULT_VEL)
+
+    def plot_trajectory(self):
+        pass

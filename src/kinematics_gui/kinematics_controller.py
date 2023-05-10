@@ -119,7 +119,7 @@ class kinematicsController():
     def data_changed(self):
         self.model.blockSignals(True)
         if(self.data_different()):
-            mode = self.parent.tree_widget.mode
+            mode = self.parent.kinematics_tree_widget.mode
             if(mode == 'fk'):
                 self.solve_fk()
             if(mode == 'ik'):

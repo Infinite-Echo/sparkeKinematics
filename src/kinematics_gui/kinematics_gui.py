@@ -43,10 +43,18 @@ class App(QMainWindow):
         # Connect the dataChanged signal to the controller's slot
         self.data_changed_signal.connect(self.controller.data_changed)
         self.ui.actionReset.triggered.connect(self.controller.home)
-        self.ui.trajectory_toggle_button.pressed.connect(self.trajectory_tree_widget.toggle_trajectory)
+        self.ui.toggle_trajectory_button.pressed.connect(self.toggle_trajectory_clicked)
+        self.ui.toggle_labels_button.pressed.connect(self.plot_widget.toggle_labels)
+        self.ui.clear_trajectory_plot_button.pressed.connect(self.plot_widget.clear_points)
+        self.ui.reset_trajectory_button.pressed.connect(self.trajectory_tree_widget.reset_trajectory)
+        self.ui.reset_vel_button.pressed.connect(self.trajectory_tree_widget.reset_velocity)
+        self.ui.plot_trajectory_button.pressed.connect(self.trajectory_tree_widget.plot_trajectory)
 
         # Emit the signal when the model's data changes
         kinematics_model.dataChanged.connect(lambda i1, i2: self.data_changed_signal.emit(i1, i2))
+
+    def toggle_trajectory_clicked(self):
+        self.trajectory_tree_widget.toggle_trajectory()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
