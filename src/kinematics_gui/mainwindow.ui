@@ -125,8 +125,8 @@
      <property name="title">
       <string>Export</string>
      </property>
-     <addaction name="actionKinematics_2"/>
-     <addaction name="actionControl_Points"/>
+     <addaction name="actionExportKinematics"/>
+     <addaction name="actionExportPoints"/>
     </widget>
     <addaction name="actionReset"/>
     <addaction name="menuExport"/>
@@ -354,12 +354,12 @@
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionKinematics_2">
+  <action name="actionExportKinematics">
    <property name="text">
     <string>Kinematics</string>
    </property>
   </action>
-  <action name="actionControl_Points">
+  <action name="actionExportPoints">
    <property name="text">
     <string>Control Points</string>
    </property>

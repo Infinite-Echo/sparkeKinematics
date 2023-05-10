@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QTreeWidgetItem
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QTreeWidgetItem, QFileDialog
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt, QModelIndex, pyqtSignal, QModelIndex
 from mainwindow import Ui_MainWindow
@@ -11,6 +11,7 @@ from matplotlib_widget import Matplotlib3DWidget
 from kinematics_tree_widget import KinematicsTree
 from trajectory_tree_widget import TrajectoryTree
 from kinematics_controller import kinematicsController
+import csv
 
 class App(QMainWindow):
     kinematics_data_changed_signal = pyqtSignal(QModelIndex, QModelIndex)
@@ -46,6 +47,8 @@ class App(QMainWindow):
         self.kinematics_data_changed_signal.connect(self.controller.data_changed)
         self.trajectory_data_changed_signal.connect(self.trajectory_tree_widget.data_changed)
         self.ui.actionReset.triggered.connect(self.reset_triggered)
+        self.ui.actionExportKinematics.triggered.connect(self.export_kinematics)
+        self.ui.actionExportPoints.triggered.connect(self.export_points)
         self.ui.toggle_points_button.pressed.connect(self.trajectory_tree_widget.toggle_points)
         self.ui.clear_trajectory_plot_button.pressed.connect(self.plot_widget.clear_trajectory)
         self.ui.plot_trajectory_button.pressed.connect(self.trajectory_tree_widget.plot_trajectory)
@@ -58,6 +61,28 @@ class App(QMainWindow):
         self.controller.home()
         self.trajectory_tree_widget.reset_trajectory()
         self.trajectory_tree_widget.reset_velocity()
+
+    def export_kinematics(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getSaveFileName(self, "Export Kinematics", "", "CSV Files (*.csv);;All Files (*)", options=options)
+        if fileName:
+            if fileName.endswith('.csv'):
+                angles = self.controller.get_angles_from_tree()
+                positions = self.controller.get_positions_from_tree()
+                with open(fileName, 'a', newline='') as csvfile:
+                    writer = csv.writer(csvfile, delimiter=' ')
+                    for i in range(4):
+                        writer.writerow()
+
+    def export_points(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getSaveFileName(self, "Export Points", "", "CSV Files (*.csv);;All Files (*)", options=options)
+        if fileName:
+            if fileName.endswith('.csv'):
+                vel = self.trajectory_tree_widget.generate_velocity_item()
+                control_points = self.trajectory_tree_widget.generate_control_points()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
