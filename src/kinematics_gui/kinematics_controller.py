@@ -84,7 +84,6 @@ class kinematicsController():
         try:
             for i in range(4):
                 end_effector_positions = get_positions(self.model, kinematicsController.LEG_DICT[i], 'Wrist')
-                print(end_effector_positions)
                 self.sparke_legs[i].solve_angles(self.Tm, end_effector_positions[0], end_effector_positions[1], end_effector_positions[2])
                 self.current_angles[i][0] = self.sparke_legs[i].theta1
                 self.current_angles[i][1] = self.sparke_legs[i].theta2
@@ -109,8 +108,7 @@ class kinematicsController():
                 self.current_positions[(i*4)+1] = positions[1]
                 self.current_positions[(i*4)+2] = positions[2]
                 self.current_positions[(i*4)+3] = positions[3]
-            self.set_tree_to_current_vals()
-            print('FK Solved')        
+            self.set_tree_to_current_vals()        
         except:
             print('Invalid Inputs For FK, Unable to Solve')
             self.restore_old_positions(old_positions)
