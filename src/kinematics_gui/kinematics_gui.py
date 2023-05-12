@@ -16,6 +16,19 @@ import csv
 class App(QMainWindow):
     kinematics_data_changed_signal = pyqtSignal(QModelIndex, QModelIndex)
     trajectory_data_changed_signal = pyqtSignal(QModelIndex, QModelIndex)
+    kinematics_header = [
+        '',
+        'X',
+        'Y',
+        'Z',
+        'θ',
+    ]
+    trajectory_header = [
+        'Point',
+        'X',
+        'Y',
+        'Z',
+    ]
 
     def __init__(self):
         super().__init__()
@@ -71,9 +84,13 @@ class App(QMainWindow):
                 angles = self.controller.get_angles_from_tree()
                 positions = self.controller.get_positions_from_tree()
                 with open(fileName, 'a', newline='') as csvfile:
-                    writer = csv.writer(csvfile, delimiter=' ')
+                    writer = csv.writer(csvfile, delimiter=',')
+                    writer.writerow(self.kinematics_header)
                     for i in range(4):
-                        writer.writerow()
+                        writer.writerow([self.controller.LEG_DICT[i]])
+                        for j in range(3):
+                            writer.writerow([self.controller.JOINT_DICT[j], positions[(i*3)+j][0], \
+                                            positions[(i*3)+j][1], positions[(i*3)+j][2], angles[i][j]])
 
     def export_points(self):
         options = QFileDialog.Options()
@@ -81,9 +98,13 @@ class App(QMainWindow):
         fileName, _ = QFileDialog.getSaveFileName(self, "Export Points", "", "CSV Files (*.csv);;All Files (*)", options=options)
         if fileName:
             if fileName.endswith('.csv'):
-                vel = self.trajectory_tree_widget.generate_velocity_item()
                 control_points = self.trajectory_tree_widget.generate_control_points()
-
+                with open(fileName, 'a', newline='') as csvfile:
+                    writer = csv.writer(csvfile, delimiter=',')
+                    writer.writerow(self.trajectory_header)
+                    for i in range(12):
+                        writer.writerow([i, control_points[i][0], control_points[i][1], control_points[i][2]])
+                    
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = App()

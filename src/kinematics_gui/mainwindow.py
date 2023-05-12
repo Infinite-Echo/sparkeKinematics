@@ -72,8 +72,6 @@ class Ui_MainWindow(object):
         self.menuOptions.setObjectName("menuOptions")
         self.menuMode = QtWidgets.QMenu(self.menuOptions)
         self.menuMode.setObjectName("menuMode")
-        self.menuHelp = QtWidgets.QMenu(self.menubar)
-        self.menuHelp.setObjectName("menuHelp")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -182,9 +180,9 @@ class Ui_MainWindow(object):
         self.menuOptions.addAction(self.menuMode.menuAction())
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuOptions.menuAction())
-        self.menubar.addAction(self.menuHelp.menuAction())
 
         self.retranslateUi(MainWindow)
+        self.actionExit.triggered.connect(MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -195,7 +193,6 @@ class Ui_MainWindow(object):
         self.menuExport.setTitle(_translate("MainWindow", "Export"))
         self.menuOptions.setTitle(_translate("MainWindow", "Options"))
         self.menuMode.setTitle(_translate("MainWindow", "Mode"))
-        self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.tree_dock_widget.setWindowTitle(_translate("MainWindow", "Robot Tree"))
         self.trajectory_dock_widget.setWindowTitle(_translate("MainWindow", "Trajectory"))
         self.control_dock_widget.setWindowTitle(_translate("MainWindow", "Control"))
