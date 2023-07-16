@@ -1,10 +1,8 @@
-#include "sparke_base_IK.hpp"
+// #include "sparke_base_IK.hpp"
 #include "base_transformations.hpp"
 #include "sparke_leg_IK.hpp"
 #include <iostream>
-#include <Eigen/Dense>
 #include <array>
-
 //0.10807106781186547, 0.11, -0.18384776310850237
 
 /*
@@ -34,6 +32,8 @@ Y Pos: -0.11
 Z Pos: -0.18384776310850237
 */
 
+using std::array;
+
 int main()
 {
     SparkeLeg testLeg1 = SparkeLeg(1);
@@ -41,7 +41,6 @@ int main()
     SparkeLeg testLeg3 = SparkeLeg(3);
     SparkeLeg testLeg4 = SparkeLeg(4);
 
-    SparkeBase testSparke = SparkeBase();
     array<float, 4> xArray = {
         0.10807106781186548,
         0.10807106781186548,
@@ -81,11 +80,5 @@ int main()
     std::cout << testLeg4.theta1 << std::endl;
     std::cout << testLeg4.theta2 << std::endl;
     std::cout << testLeg4.theta3 << std::endl;
-
-    // array<float, 12> angles = testSparke.get_angles_from_trajectory(Tm,xArray,yArray,zArray);
-    // for(int i = 0; i<12; i++)
-    // {
-    //     std::cout << angles[i] << std::endl;
-    // }
     return 0;
 }

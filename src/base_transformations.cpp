@@ -1,6 +1,3 @@
-#include "Eigen/Dense"
-#include <iostream>
-#include <cmath>
 #include "base_transformations.hpp"
 
 Eigen::Matrix<float, 4, 4> create_base_transformation(float x_base, float y_base, float z_base,

@@ -1,8 +1,3 @@
-#include <Eigen/Dense>
-#include <iostream>
-#include <cmath>
-#include "leg_transformations.hpp"
-#include "base_transformations.hpp"
 #include "sparke_leg_IK.hpp"
 
 SparkeLeg::SparkeLeg(int leg_id)
@@ -88,24 +83,23 @@ Eigen::Matrix<float, 4, 4> SparkeLeg::get_tb1()
 
 void SparkeLeg::get_dirs(int leg_id)
 {
-    if (leg_id==1)
+    switch (leg_id)
     {
+    case 1:
         x_dir = 1;
         y_dir = 1;
-    } 
-    else if (leg_id == 2)
-    {
+        break;
+    case 2:
         x_dir = 1;
         y_dir = -1;
-    }
-    else if (leg_id == 3)
-    {
+        break;
+    case 3:
         x_dir = -1;
         y_dir = 1;
-    }
-    else if (leg_id == 4)
-    {
+        break;
+    case 4:
         x_dir = -1;
         y_dir = -1;
+        break;
     }
 }
