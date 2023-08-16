@@ -1,4 +1,2 @@
-# IF YOU ARE VIEWING THIS FOR GRADING SWITCH TO BRANCH final_project
-
-## sparkeKinematics
-Forward and Inverse Kinematics Equations for a 'sparke' quadruped robot
+# SPARKE Kinematics 
+Submodule for the SPARKE project (https://github.com/Infinite-Echo/sparke) containing forward and inverse kinematics.
