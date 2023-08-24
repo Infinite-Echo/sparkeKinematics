@@ -1,1 +1,2 @@
-# CSCI 1620 FINAL PROJECT
+# SPARKE Kinematics 
+Submodule for the SPARKE project (https://github.com/Infinite-Echo/sparke) containing forward and inverse kinematics.
