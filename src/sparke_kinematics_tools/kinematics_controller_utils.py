@@ -5,7 +5,7 @@ from sparke_kinematics.sparke_leg_IK import SparkeLeg
 from PyQt5.QtWidgets import QTreeView, QApplication, QWidget, QVBoxLayout, QSizePolicy, QMainWindow
 from PyQt5.QtCore import Qt, QModelIndex
 import numpy as np
-from mainwindow import Ui_MainWindow
+from sparke_kinematics_tools.mainwindow import Ui_MainWindow
 
 def get_link_index(model, link_name):
     linkDict = {

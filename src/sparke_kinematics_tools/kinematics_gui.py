@@ -2,15 +2,15 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QTreeWidgetItem, QFileDialog
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt, QModelIndex, pyqtSignal, QModelIndex
-from mainwindow import Ui_MainWindow
+from sparke_kinematics_tools.mainwindow import Ui_MainWindow
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
-from matplotlib_widget import Matplotlib3DWidget
-from kinematics_tree_widget import KinematicsTree
-from trajectory_tree_widget import TrajectoryTree
-from kinematics_controller import kinematicsController
+from sparke_kinematics_tools.matplotlib_widget import Matplotlib3DWidget
+from sparke_kinematics_tools.kinematics_tree_widget import KinematicsTree
+from sparke_kinematics_tools.trajectory_tree_widget import TrajectoryTree
+from sparke_kinematics_tools.kinematics_controller import kinematicsController
 import csv
 
 class App(QMainWindow):

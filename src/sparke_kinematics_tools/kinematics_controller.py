@@ -1,13 +1,13 @@
 from sparke_kinematics import base_transformations as basetf
 from sparke_kinematics import leg_transformations as legtf
 # from sparke_kinematics.sparke_base_IK import SparkeBase
-from matplotlib_widget import Matplotlib3DWidget
+from sparke_kinematics_tools.matplotlib_widget import Matplotlib3DWidget
 from sparke_kinematics.sparke_leg_IK import SparkeLeg
 from PyQt5.QtWidgets import QTreeView, QApplication, QWidget, QVBoxLayout, QSizePolicy, QMainWindow
 import numpy as np
-from mainwindow import Ui_MainWindow
-from kinematics_controller_utils import *
-import forward_kinematics_utils as fk_utils
+from sparke_kinematics_tools.mainwindow import Ui_MainWindow
+from sparke_kinematics_tools.kinematics_controller_utils import *
+import sparke_kinematics_tools.forward_kinematics_utils as fk_utils
 import time
 import copy
 class kinematicsController():

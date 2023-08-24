@@ -4,7 +4,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QSizePolicy
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from bezier_utils import *
+from sparke_kinematics_tools.bezier_utils import *
 
 class Matplotlib3DWidget(QWidget):
     def __init__(self, parent=None):

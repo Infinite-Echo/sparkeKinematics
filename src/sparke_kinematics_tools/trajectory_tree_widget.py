@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt, QModelIndex
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QTreeView, QApplication, QWidget, QVBoxLayout, QSizePolicy, QMainWindow
-from trajectory_utils import *
+from sparke_kinematics_tools.trajectory_utils import *
 class TrajectoryTree(QWidget):
     DEFAULT_VEL = [
         0.1, 0.0, 0.0, 0.0, 0.0, 0.0,

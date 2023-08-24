@@ -1,8 +1,8 @@
 from PyQt5.QtCore import Qt, QModelIndex
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QTreeView, QApplication, QWidget, QVBoxLayout, QSizePolicy, QMainWindow
-from mainwindow import Ui_MainWindow
-from kinematics_controller_utils import *
+from sparke_kinematics_tools.mainwindow import Ui_MainWindow
+from sparke_kinematics_tools.kinematics_controller_utils import *
 
 class KinematicsTree(QWidget):
     def __init__(self, parent: QMainWindow):
