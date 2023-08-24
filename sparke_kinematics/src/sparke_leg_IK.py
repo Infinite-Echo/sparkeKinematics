@@ -63,3 +63,13 @@ class SparkeLeg():
         self.t_01 = legtf.create_T01(self.theta1)
         t_b1 = np.matmul(self.t_b0, self.t_01)
         return t_b1
+    
+    def get_tb2(self):
+        self.t_12 = legtf.create_T12(self.theta2)
+        t_b2 = np.matmul(self.get_tb1(), self.t_12)
+        return t_b2
+    
+    def get_tb3(self):
+        self.t_23 = legtf.create_T23(self.theta3)
+        t_b3 = np.matmul(self.get_tb2(), self.t_23)
+        return t_b3
